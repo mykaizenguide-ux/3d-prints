@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Interactive 3D preview of a Voronoi-lattice koala figurine for 3D printing.">
+<meta name="description" content="Interactive 3D preview of the Voronoi koala figurine with dimensions, mesh stats and print settings.">
 <meta property="og:title" content="Voronoi Koala">
 <meta property="og:image" content="preview.png">
 <title>Voronoi Koala</title>
@@ -108,6 +108,7 @@
           <dt>Triangles</dt><dd class="mono">36,262</dd>
           <dt>Shells</dt><dd class="mono">1, watertight</dd>
           <dt>Strut</dt><dd class="mono">1.4 &times; 2.0 mm</dd>
+          <dt>Limb strut</dt><dd class="mono">2.2 &times; 3.0 mm</dd>
           <dt>Seed cells</dt><dd class="mono">139</dd>
         </dl>
         <p class="legend">
@@ -122,9 +123,9 @@
           <dt>Nozzle</dt><dd class="mono">0.2 mm</dd>
           <dt>Layer</dt><dd class="mono">0.10 mm</dd>
           <dt>Outer wall</dt><dd class="mono">20&ndash;25 mm/s</dd>
-          <dt>Supports</dt><dd>tree, under arms &amp; chin</dd>
-          <dt>Material</dt><dd>PLA or PETG</dd>
-          <dt>Orientation</dt><dd>upright on base</dd>
+          <dt>Supports</dt><dd class="mono">tree, under arms &amp; chin</dd>
+          <dt>Material</dt><dd class="mono">PLA or PETG</dd>
+          <dt>Orientation</dt><dd class="mono">upright on base</dd>
         </dl>
       </section>
 
@@ -196,7 +197,7 @@
   const bedGroup = new THREE.Group();
   const bedPlane = new THREE.Mesh(new THREE.PlaneGeometry(120,120), new THREE.MeshBasicMaterial({color: css('--bed')}));
   bedPlane.position.z = -0.3; bedGroup.add(bedPlane);
-  const grid = new THREE.GridHelper(120, 12, css('--bed-line'), css('--bed-line'));
+  const grid = new THREE.GridHelper(120, 120/10, css('--bed-line'), css('--bed-line'));
   grid.rotation.x = Math.PI/2; grid.position.z = -0.2; bedGroup.add(grid);
   scene.add(bedGroup);
 
@@ -211,8 +212,7 @@
       let cx=0,cy=0,cz=0;
       for (let v=0;v<3;v++){cx+=p[t*9+v*3];cy+=p[t*9+v*3+1];cz+=p[t*9+v*3+2];}
       cx/=3;cy/=3;cz/=3;
-      const solid = cz<3.05 || (Math.abs(cx)>10.5 && cz>60 && Math.abs(cy)<7) ||
-                    (cy<-15.5 && cz>51 && Math.abs(cx)<11.5);
+      const solid = (cz<3.05 || (Math.abs(cx)>10.5 && cz>60 && Math.abs(cy)<7) || (cy<-15.5 && cz>51 && Math.abs(cx)<11.5));
       (solid?solidTris:meshTris).push(t);
     }
     const idx = new Uint32Array(n*3); let k=0;
@@ -228,7 +228,7 @@
   document.getElementById('loading').remove();
 
   // ---- views ----
-  const views = { front:[0,-230,60], side:[230,0,60], back:[0,230,60], top:[0,-1,290] };
+  const views = {"front": [0, -230, 60], "side": [230, 0, 60], "back": [0, 230, 60], "top": [0, -1, 290]};
   function setView(name){
     const v = views[name]; camera.position.set(v[0],v[1],v[2]); controls.target.copy(target); controls.update();
   }
