@@ -148,7 +148,16 @@
 <script>
 (function(){
   const loadingEl = document.getElementById('loading');
-  function fail(msg){ loadingEl.textContent = msg; loadingEl.style.color = 'var(--bark)'; loadingEl.style.padding = '24px'; loadingEl.style.textAlign = 'center'; console.error(msg); }
+  const FALLBACK_IMG = "preview.png";
+  function fail(msg){
+    console.error(msg);
+    loadingEl.style.color = 'var(--bark)'; loadingEl.style.padding = '24px'; loadingEl.style.textAlign = 'center';
+    if (FALLBACK_IMG) {
+      loadingEl.innerHTML = '<div><img src="' + FALLBACK_IMG + '" alt="Static render" style="max-height:60vh;border-radius:10px"><p style="margin:10px 0 0;font-size:13px">Static render shown: ' + msg + '<br>Enable graphics acceleration in your browser (chrome://settings/system) or restart it, then reload for the live 3D view.</p></div>';
+    } else {
+      loadingEl.textContent = msg + ' Enable graphics acceleration in your browser or restart it, then reload.';
+    }
+  }
   window.addEventListener('error', e => fail('Viewer error: ' + (e.message || e)));
   if (typeof THREE === 'undefined') return fail('Three.js did not load. Check the network or an ad/script blocker.');
   if (typeof THREE.OrbitControls === 'undefined') return fail('OrbitControls did not load from cdn.jsdelivr.net.');
