@@ -2,6 +2,7 @@
 
 Interactive previews of 3D-printable designs. Generated site; sources live in a separate repo.
 
+- [Chibi Knight](https://mykaizenguide-ux.github.io/3d-prints/knight/)
 - [Voronoi Koala](https://mykaizenguide-ux.github.io/3d-prints/koala/)
 - [Coral Hand Lamp](https://mykaizenguide-ux.github.io/3d-prints/lamp/)
 
