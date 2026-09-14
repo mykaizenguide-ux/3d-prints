@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Interactive previews of parametric 3D-printable designs.">
+<title>3D Model Prints</title>
+<script>
+  // theme: dark by default, user choice remembered per browser; runs before first paint to avoid a flash
+  (function(){ var t; try { t = localStorage.getItem('theme'); } catch(e) {}
+    document.documentElement.setAttribute('data-theme', t === 'light' ? 'light' : 'dark'); })();
+</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Nunito+Sans:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --bg:#F3F5F1; --panel:#FFFFFF; --ink:#1E2A24; --ink-2:#55655C; --line:#D9E0DA;
+    --accent:#4E7D5B; --accent-ink:#FFFFFF; --bark:#8A6A4B; --chip:#E6EEE7;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#16211C; --panel:#1E2B25; --ink:#E8EEE9; --ink-2:#A3B2A8; --line:#2F3E36;
+      --accent:#7FB68C; --accent-ink:#0F1A14; --bark:#C9A57F; --chip:#263630;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#16211C; --panel:#1E2B25; --ink:#E8EEE9; --ink-2:#A3B2A8; --line:#2F3E36;
+    --accent:#7FB68C; --accent-ink:#0F1A14; --bark:#C9A57F; --chip:#263630;
+  }
+  :root[data-theme="dark"]{color-scheme:dark}
+  :root[data-theme="light"]{color-scheme:light}
+  .theme{font:600 13px/1 "Nunito Sans",system-ui,sans-serif;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:8px 12px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+  .theme:hover{border-color:var(--accent)}
+  .theme:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .theme .sun,.theme .moon{display:none}
+  :root[data-theme="dark"] .theme .sun{display:inline}
+  :root[data-theme="light"] .theme .moon{display:inline}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Nunito Sans",system-ui,-apple-system,"Segoe UI",sans-serif}
+  .wrap{max-width:1180px;margin:0 auto;padding:36px 20px 64px}
+  header{margin-bottom:28px;display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:12px 24px}
+  header .intro{max-width:60ch}
+  h1{font-family:Fraunces,Georgia,serif;font-weight:700;font-size:clamp(34px,5vw,52px);line-height:1.02;margin:0 0 10px;letter-spacing:-.01em;text-wrap:balance}
+  h1 em{font-style:italic;font-weight:500;color:var(--accent)}
+  .sub{color:var(--ink-2);margin:0}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+  a.card{display:flex;flex-direction:column;background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;color:inherit;text-decoration:none;transition:border-color .15s,transform .15s}
+  a.card:hover{border-color:var(--accent);transform:translateY(-2px)}
+  a.card:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .card img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;background:#f7f7f7}
+  .card .body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px}
+  .card h2{font-family:Fraunces,Georgia,serif;font-weight:700;font-size:22px;margin:0;line-height:1.15}
+  .card p{margin:0;color:var(--ink-2);font-size:14px}
+  .dims{font-family:"JetBrains Mono",ui-monospace,Consolas,monospace;font-variant-numeric:tabular-nums;font-size:12px;color:var(--ink-2);letter-spacing:.02em}
+  footer{margin-top:32px;font-size:13px;color:var(--ink-2);display:flex;flex-wrap:wrap;gap:6px 18px}
+  @media (prefers-reduced-motion:reduce){a.card{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="intro">
+    <h1>3D Model <em>Prints</em></h1>
+    <p class="sub">Parametric 3D-printable designs: open Voronoi lattices, solid figurines and low-poly objects. Each page has a live 3D view, print settings and STL / 3MF downloads.</p>
+    </div>
+    <button class="theme" id="theme" type="button" aria-label="Switch colour theme"><span class="sun">&#9728; Light</span><span class="moon">&#9790; Dark</span></button>
+  </header>
+  <div class="grid">
+    <a class="card" href="./frenchie/">
+      <img src="./frenchie/preview.png?v=2fd0e5db" alt="Low Poly Frenchie render">
+      <div class="body">
+        <h2>Low Poly Frenchie</h2>
+        <p>Interactive 3D preview of the low poly French bulldog figurine with dimensions, mesh stats and print settings.</p>
+        <span class="dims">47 x 72 x 80 mm &middot; 33 g &middot; 1 h 29 min</span>
+      </div>
+    </a>
+    <a class="card" href="./knight-ai/">
+      <img src="./knight-ai/preview.png?v=6f7c10a7" alt="Described Knight render">
+      <div class="body">
+        <h2>Described Knight</h2>
+        <p>Interactive 3D preview of a knight built from a written description, with dimensions, mesh source and print settings.</p>
+        <span class="dims">57.9 x 37.6 x 83.3 mm &middot; 22 g &middot; 5 h 05 min</span>
+      </div>
+    </a>
+    <a class="card" href="./knight-photo/">
+      <img src="./knight-photo/preview.png?v=11e7fc42" alt="Photo Knight render">
+      <div class="body">
+        <h2>Photo Knight</h2>
+        <p>Interactive 3D preview of the photo-derived knight with dimensions, mesh source and print settings.</p>
+        <span class="dims">44.6 x 44.9 x 90.4 mm &middot; 18 g &middot; 4 h 19 min</span>
+      </div>
+    </a>
+    <a class="card" href="./knight/">
+      <img src="./knight/preview.png?v=bc153626" alt="Chibi Knight render">
+      <div class="body">
+        <h2>Chibi Knight</h2>
+        <p>Interactive 3D preview of the fat chibi armoured knight figurine with dimensions, balance check and print settings.</p>
+        <span class="dims">79 x 67 x 86 mm &middot; 67 g &middot; 3 h 57 min</span>
+      </div>
+    </a>
+    <a class="card" href="./koala/">
+      <img src="./koala/preview.png?v=53cea2bc" alt="Voronoi Koala render">
+      <div class="body">
+        <h2>Voronoi Koala</h2>
+        <p>Interactive 3D preview of the Voronoi koala figurine with dimensions, mesh stats and print settings.</p>
+        <span class="dims">64 x 64 x 80 mm &middot; 40 g &middot; 3 h 37 min</span>
+      </div>
+    </a>
+    <a class="card" href="./lamp/">
+      <img src="./lamp/preview.png?v=d0635d5c" alt="Coral Hand Lamp render">
+      <div class="body">
+        <h2>Coral Hand Lamp</h2>
+        <p>Interactive 3D preview of the Coral Hand E27 lamp holder with dimensions, hardware and print settings.</p>
+        <span class="dims">120 x 164 x 243 mm &middot; 222 g &middot; 10 h 55 min</span>
+      </div>
+    </a>
+    <a class="card" href="./paladin/">
+      <img src="./paladin/preview.png?v=ff8585f9" alt="Steampunk Paladin render">
+      <div class="body">
+        <h2>Steampunk Paladin</h2>
+        <p>Interactive 3D preview of the steampunk paladin figurine with dimensions, mesh stats and print settings.</p>
+        <span class="dims">50 x 49 x 91 mm &middot; 30 g &middot; 2 h 08 min</span>
+      </div>
+    </a>
+    <a class="card" href="./tree/">
+      <img src="./tree/preview.png?v=495dff9a" alt="Spectacle Tree render">
+      <div class="body">
+        <h2>Spectacle Tree</h2>
+        <p>Interactive 3D preview of the low-poly spectacle tree: two staggered nose saddles with V notches holding two pairs of glasses, with a toggle to show the glasses, dimensions and print settings.</p>
+        <span class="dims">60 x 99 x 146 mm &middot; 39 g &middot; 1 h 27 min</span>
+      </div>
+    </a>
+  </div>
+  <footer>
+    <span>Parametric 3D-printable designs</span>
+    <span>CC BY-NC-SA 4.0</span>
+  </footer>
+</div>
+<script>
+  document.getElementById('theme').addEventListener('click', function(){
+    var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    try { localStorage.setItem('theme', next); } catch(e) {}
+  });
+</script>
+</body>
+</html>
