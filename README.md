@@ -10,5 +10,7 @@ Interactive previews of 3D-printable designs. Generated site; sources live in a 
 - [Coral Hand Lamp](https://mykaizenguide-ux.github.io/3d-prints/lamp/)
 - [Steampunk Paladin](https://mykaizenguide-ux.github.io/3d-prints/paladin/)
 - [Spectacle Tree](https://mykaizenguide-ux.github.io/3d-prints/tree/)
+- [Blossom Vase, spiral](https://mykaizenguide-ux.github.io/3d-prints/vase-spiral/)
+- [Blossom Vase](https://mykaizenguide-ux.github.io/3d-prints/vase/)
 
 License: CC BY-NC-SA 4.0
