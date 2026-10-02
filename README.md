@@ -2,6 +2,7 @@
 
 Interactive previews of 3D-printable designs. Generated site; sources live in a separate repo.
 
+- [Low Poly Fox](https://mykaizenguide-ux.github.io/3d-prints/fox/)
 - [Low Poly Frenchie](https://mykaizenguide-ux.github.io/3d-prints/frenchie/)
 - [Described Knight](https://mykaizenguide-ux.github.io/3d-prints/knight-ai/)
 - [Photo Knight](https://mykaizenguide-ux.github.io/3d-prints/knight-photo/)
